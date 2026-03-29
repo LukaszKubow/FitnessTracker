@@ -1,58 +1,37 @@
-package pl.wsb.fitnesstracker.training.api;
+package pl.wsb.fitnesstracker.user.api;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import pl.wsb.fitnesstracker.training.internal.ActivityType;
-import pl.wsb.fitnesstracker.user.api.User;
-
-import java.util.Date;
+import lombok.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "trainings")
+@Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
-public class Training {
+@AllArgsConstructor
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "start_time", nullable = false)
-    private Date startTime;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
-    @Column(name = "end_time", nullable = false)
-    private Date endTime;
+    @Column(name = "birthdate", nullable = false)
+    private LocalDate birthdate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "activity_type", nullable = false)
-    private ActivityType activityType;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-    @Column(name = "distance")
-    private double distance;
-
-    @Column(name = "average_speed")
-    private double averageSpeed;
-
-    public Training(
-            final User user,
-            final Date startTime,
-            final Date endTime,
-            final ActivityType activityType,
-            final double distance,
-            final double averageSpeed) {
-        this.user = user;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.activityType = activityType;
-        this.distance = distance;
-        this.averageSpeed = averageSpeed;
+    public User(String firstName, String lastName, LocalDate birthdate, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.email = email;
     }
 }

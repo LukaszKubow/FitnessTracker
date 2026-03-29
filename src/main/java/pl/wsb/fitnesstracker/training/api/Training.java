@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.wsb.fitnesstracker.user.api.User;
-
 import java.util.Date;
 
 @Entity
@@ -20,7 +19,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne // Wiele treningów do jednego użytkownika (kluczowe dla zadania!)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -32,9 +31,8 @@ public class Training {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
 
-    @Enumerated(EnumType.STRING) // Zakładając, że ActivityType to Enum
     @Column(name = "activity_type", nullable = false)
-    private ActivityType activityType;
+    private String activityType;
 
     @Column(name = "distance")
     private double distance;
@@ -46,7 +44,7 @@ public class Training {
             final User user,
             final Date startTime,
             final Date endTime,
-            final ActivityType activityType,
+            final String activityType,
             final double distance,
             final double averageSpeed) {
         this.user = user;
