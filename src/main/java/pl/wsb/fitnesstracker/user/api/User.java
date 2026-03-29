@@ -1,41 +1,58 @@
-package pl.wsb.fitnesstracker.user.api;
+package pl.wsb.fitnesstracker.training.api;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.wsb.fitnesstracker.training.internal.ActivityType;
+import pl.wsb.fitnesstracker.user.api.User;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "trainings")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class User {
+public class Training {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
     private Long id;
 
-    @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(name = "start_time", nullable = false)
+    private Date startTime;
 
-    public User(
-            final String firstName,
-            final String lastName,
-            final LocalDate birthdate,
-            final String email) {
+    @Column(name = "end_time", nullable = false)
+    private Date endTime;
 
-        this.birthdate = birthdate;
-        this.email = email;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "activity_type", nullable = false)
+    private ActivityType activityType;
+
+    @Column(name = "distance")
+    private double distance;
+
+    @Column(name = "average_speed")
+    private double averageSpeed;
+
+    public Training(
+            final User user,
+            final Date startTime,
+            final Date endTime,
+            final ActivityType activityType,
+            final double distance,
+            final double averageSpeed) {
+        this.user = user;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.activityType = activityType;
+        this.distance = distance;
+        this.averageSpeed = averageSpeed;
     }
-
 }
-
