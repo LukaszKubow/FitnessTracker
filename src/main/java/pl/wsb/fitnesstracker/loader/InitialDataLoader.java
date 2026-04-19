@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.training.api.Training;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
