@@ -1,4 +1,3 @@
-
 package pl.wsb.fitnesstracker;
 
 import org.junit.jupiter.api.Test;
