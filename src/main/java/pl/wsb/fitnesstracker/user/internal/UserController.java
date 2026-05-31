@@ -1,32 +1,36 @@
 package pl.wsb.fitnesstracker.user.internal;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.wsb.fitnesstracker.user.api.UserDto;
+import pl.wsb.fitnesstracker.user.api.UserDtoSimple;
+import pl.wsb.fitnesstracker.user.api.UserProvider;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * UserController is responsible for handling HTTP requests related to user operations.
- * It provides endpoints for retrieving and creating users.
+ * Controller responsible for handling user-related Internet API requests.
  */
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
 class UserController {
 
-    private final UserServiceImpl userService;
-
+    private final UserProvider userProvider;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public UserDto addUser(@RequestBody UserDto userDto) throws InterruptedException {
-
-        // TODO: Implement the method to add a new user.
-        //  You can use the @RequestBody annotation to map the request body to the UserDto object.
-
-        return null;
+    /**
+     * Retrieves basic information about all users registered in the system.
+     *
+     * @return list of {@link UserDtoSimple} objects containing basic user data
+     */
+    @GetMapping
+    public List<UserDtoSimple> getAllUsers() {
+        return userProvider.findAllUsers()
+                .stream()
+                .map(userMapper::toUserDtoSimple)
+                .collect(Collectors.toList());
     }
-
 }
